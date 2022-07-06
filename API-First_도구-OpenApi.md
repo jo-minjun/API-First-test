@@ -7,22 +7,22 @@
 
 - OpenApi Specification은 REST API를 위한 기술 도구이다.
 - OpenAPI 파일은 아래 내용을 포함한 내용을 기술할 수 있다.
-  - API endpoint와 HTTP method (GET /users, POST /users 등)
-  - 각 API의 요청과 응답의 파라미터
-  - 인증 method
-  - 이용 방법, 라이센스, 연락처 등과 기타 정보
+    - API endpoint와 HTTP method (GET /users, POST /users 등)
+    - 각 API의 요청과 응답의 파라미터
+    - 인증 method
+    - 이용 방법, 라이센스, 연락처 등과 기타 정보
 - OpenApi Specification은 YAML 또는 JSON으로 작성할 수 있다.
 - Swagger와 redoc 등을 모두 지원한다.
-  - Swagger Editor를 사용하면 OpenApi Specification의 문법 오류와 UI를 확인 할 수 있다.
+    - Swagger Editor를 사용하면 OpenApi Specification의 문법 오류와 UI를 확인 할 수 있다.
 
 ## OpenApi의 장점
 
 - OpenApi-generator를 사용하면 서버의 코드 stub과 클라이언트의 라이브러리를 자동으로 생성해준다.
-  - 서버 stub은 각 API에 대한 기술없이, 구현만 해주면 된다.
-  - JAVA 뿐만 아니라 PHP, GO, C++, C#, Python, Ruby, Typescript 등 대부분의 언어를 지원한다.
-  - API Interface 뿐만 아니라 model도 구현해주고, 정규 표현식 또는 다른 제한을 validation 까지 해준다.
+    - 서버 stub은 각 API에 대한 기술없이, 구현만 해주면 된다.
+    - JAVA 뿐만 아니라 PHP, GO, C++, C#, Python, Ruby, Typescript 등 대부분의 언어를 지원한다.
+    - API Interface 뿐만 아니라 model도 구현해주고, 정규 표현식 또는 다른 제한을 validation 까지 해준다.
 - 브라우저에서 사용자가 직접 호출해볼 수 있는 interactive API 문서를 만들어 준다.
-  - Ex) Swagger
+    - Ex) Swagger
 - API를 먼저 기술하여 API-First 개발을 할 수 있다.
 
 ## 기본 문법 구조
@@ -81,9 +81,9 @@ info:
 - info 는 API의 정보를 포함한다. title과 description은 선택 필드이다.
 - title: API의 이름
 - description: API에 대한 추가적인 정보, 여러줄도 작성 가능하다.
-  - MD 형식을 지원한다.
+    - MD 형식을 지원한다.
 - version: API의 버전을 기술한다.
-  - OpenApi Spec 파일의 버전과는 다르다. 이 필드는 API의 버전이다.
+    - OpenApi Spec 파일의 버전과는 다르다. 이 필드는 API의 버전이다.
 
 ### Servers
 
@@ -96,7 +96,7 @@ servers:
 ```
 
 - 모든 API 경로는 servers.url에 상대적이다.
-  - 위 예제에서 /users는 http://api.example.com/v1/users 또는 http://staging-api.example.com/users를 의미한다.
+    - 위 예제에서 /users는 http://api.example.com/v1/users 또는 http://staging-api.example.com/users를 의미한다.
 - 자세한 정보는 [API Server and Base Path](https://swagger.io/docs/specification/api-host-and-base-path/)를 참고
 
 ### Path
@@ -294,17 +294,17 @@ security:
 
 - securitySchemas와 security 키워드는 API에서 인증 방법을 기술할 때 사용된다.
 - 지원되는 인증 방법은 다음과 같다.
-  - HTTP authentication: Basic, Bearer
-  - header 또는 query string 또는 Cookies에 있는 API Key
-  - OAuth2
-  - OpenId Connection Discovery
+    - HTTP authentication: Basic, Bearer
+    - header 또는 query string 또는 Cookies에 있는 API Key
+    - OAuth2
+    - OpenId Connection Discovery
 - 자세한 정보는 [Authentication](https://swagger.io/docs/specification/authentication/)를 참고
 
 ### 기타
 
 - 위 내용뿐만 아니라 다른 많은 기능을 가지고 있습니다.
 - 아래 내용은 읽어보시길 추천 드립니다.
-  - [Data Types](https://swagger.io/docs/specification/data-models/data-types/)
-  - [Enums](https://swagger.io/docs/specification/enums/)
-  - [oneOf, anyOf, allOf, not](https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/)
-  - [Adding Examples](https://swagger.io/docs/specification/adding-examples/)
+    - [Data Types](https://swagger.io/docs/specification/data-models/data-types/)
+    - [Enums](https://swagger.io/docs/specification/enums/)
+    - [oneOf, anyOf, allOf, not](https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/)
+    - [Adding Examples](https://swagger.io/docs/specification/adding-examples/)
