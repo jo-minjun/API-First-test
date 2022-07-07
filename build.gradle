@@ -9,6 +9,8 @@ plugins {
 
 // OpenApi Generator
 apply plugin: 'org.openapi.generator'
+// OpenApi 설정을 gradle/openApi.gradle에 두었음 (import)
+apply from: 'gradle/openApi.gradle'
 
 group = 'minjun'
 version = '0.0.1-SNAPSHOT'

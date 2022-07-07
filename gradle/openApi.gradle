@@ -1,0 +1,30 @@
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = "$rootDir/src/main/resources/api.yaml".toString()
+    outputDir = "$buildDir/openapi".toString()
+    apiPackage = 'minjun.openapigenerator.api'
+    modelPackage = 'minjun.openapigenerator.api.model'
+    modelNameSuffix = "Dto"
+    apiFilesConstrainedTo = [""]
+    modelFilesConstrainedTo = [""]
+    supportingFilesConstrainedTo = ["ApiUtil.java"]
+    configOptions = [
+            delegatePattern: "true",
+            title: "openapigenerator",
+            useTags: "true",
+            dateLibrary: "java8",
+            java8: "true",
+            hideGenerationTimestamp: "true"
+    ]
+    validateSpec = true
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir file("${project.buildDir.path}/openapi/src/main/java")
+        }
+    }
+}
+
+compileJava.dependsOn("openApiGenerate")
