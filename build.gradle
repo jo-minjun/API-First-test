@@ -31,7 +31,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // OpenApi Generator
-    implementation 'org.openapitools:openapi-generator-gradle-plugin:6.0.1'
+    // OpenApi Stub에서 사용되는 annotation 추가
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.3'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 }
 
 tasks.named('test') {
