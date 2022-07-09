@@ -145,3 +145,107 @@ apply from: 'gradle/openApi.gradle'
     - 상술된 gradle 설정을 사용하면 위와 같은 디렉토리에 소스코드가 생성됩니다.
 
 ![생성된 소스코드 위치](./img/2.PNG)
+- 이제 생성된 소스코드를 이용해서 서버 개발을 하면 된다.
+
+### 클라이언트 라이브러리 생성
+
+- 이 문서에서는 java-webclient 클라이언트를 생성한다.
+    - java-resttemplate, typescript 등도 지원한다.
+- 프로젝트에 clients/webclient를 만든다. (이름과 디렉토리는 원하는 것으로 하면 된다.)
+- settings.gradle에 clients/webclient를 추가한다.
+
+```bash
+include 'clients:webclient'
+```
+
+- clients/webclient에 build.gradle을 추가한다.
+
+```bash
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+    id 'org.openapi.generator'
+}
+
+def libraryName = 'webclient'
+def specPath = "${parent.rootDir}/src/main/resources/api.yaml"
+def outputPath = "${buildDir}/generated/java-${libraryName}-client"
+
+group = 'minjun.client'
+version = '0.0.1-SNAPSHOT'
+archivesBaseName = "${libraryName}-client"
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'io.swagger:swagger-annotations:1.6.2'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.3'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+}
+
+openApiGenerate {
+    generatorName = "java"
+    inputSpec = specPath
+    outputDir = outputPath
+    apiPackage = "minjun.openapi.api"
+    modelPackage = "minjun.openapi.api.model"
+    modelNameSuffix = "Dto"
+    apiFilesConstrainedTo = [""]
+    modelFilesConstrainedTo = [""]
+    supportingFilesConstrainedTo = [""]
+    configOptions = [
+            title: "webclient",
+            useTags: "true",
+            dateLibrary: "java8",
+            java8: "true",
+            hideGenerationTimestamp: "true",
+            library: "${libraryName}",
+            serializableModel: "true",
+            serializationLibrary: "jackson",
+            bigDecimalAsString: "true",
+            useRuntimeException: "true"
+    ]
+
+    validateSpec = true
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir file("${outputPath}/src/main/java")
+        }
+    }
+}
+
+jar {
+    enabled = true
+    from sourceSets.main.output
+}
+
+bootJar {
+    enabled = false
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+compileJava.dependsOn("openApiGenerate")
+```
+
+- gradle 테스크를 실행한다.
+
+```bash
+./gradlew :clients:webclient:openApiGenerate
+```
+
+- 위 태스크를 실행하면 소스코드를 확인할 수 있고, 이제 jar를 pulish 하면 된다.
+    - 오류 해결중…

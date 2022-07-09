@@ -1,7 +1,7 @@
 openApiGenerate {
     generatorName = 'spring'
     inputSpec = "$rootDir/src/main/resources/api.yaml".toString()
-    outputDir = "$buildDir/openapi".toString()
+    outputDir = "$buildDir/generated/openapi".toString()
     apiPackage = 'minjun.openapigenerator.api'
     modelPackage = 'minjun.openapigenerator.api.model'
     modelNameSuffix = "Dto"
