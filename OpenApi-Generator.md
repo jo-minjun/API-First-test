@@ -146,7 +146,7 @@ apply from: 'gradle/openApi.gradle'
 - 서버 stub 확인
     - 상술된 gradle 설정을 사용하면 위와 같은 디렉토리에 소스코드가 생성됩니다.
 
-![2](./img/2.png)
+![2](./img/2.PNG)
 
 - 이제 생성된 소스코드를 이용해서 서버 개발을 하면 된다.
 
@@ -316,7 +316,7 @@ dependencies {
 }
 ```
 
-![3.PNG](./img/3.png)
+![3.PNG](./img/3.PNG)
 
 - 위와 같이 의존성이 추가된다.
 
