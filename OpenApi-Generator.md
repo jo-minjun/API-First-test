@@ -1,3 +1,5 @@
+# OpenApi Generator
+
 ## OpenApi Generator란?
 
 - API 클라이언트 라이브러리, 서버 코드 stub, API 문서 등을 생성하는 도구이다.
@@ -144,10 +146,13 @@ apply from: 'gradle/openApi.gradle'
 - 서버 stub 확인
     - 상술된 gradle 설정을 사용하면 위와 같은 디렉토리에 소스코드가 생성됩니다.
 
-![생성된 소스코드 위치](./img/2.PNG)
+![2](./img/2.png)
+
 - 이제 생성된 소스코드를 이용해서 서버 개발을 하면 된다.
 
 ### 클라이언트 라이브러리 생성
+
+**클라이언트 소스코드 생성**
 
 - 이 문서에서는 java-webclient 클라이언트를 생성한다.
     - java-resttemplate, typescript 등도 지원한다.
@@ -247,5 +252,97 @@ compileJava.dependsOn("openApiGenerate")
 ./gradlew :clients:webclient:openApiGenerate
 ```
 
-- 위 태스크를 실행하면 소스코드를 확인할 수 있고, 이제 jar를 pulish 하면 된다.
-    - 오류 해결중…
+- 위 태스크를 실행하면 소스코드를 확인할 수 있다.
+
+**클라이언트 라이브러리 생성**
+
+- publish를 하려면 아래 내용을 clients/webclient/build.gradle에 추가해야 한다.
+
+```bash
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = archivesBaseName
+
+            from components.java
+        }
+    }
+}
+```
+
+- 이 문서에서는 local에 publishing 한다. 아래 태스크를 실행한다.
+
+```bash
+./gradlew :clients:webclient:publishToMavenLocal
+```
+
+- 아래 경로로 이동하면 클라이언트 라이브러리가 publish 되었는 것을 볼 수 있다.
+
+```bash
+cd ~/.m2/repository/{webclient의 build.gralde 경로}/0.0.1-SNAPSHOT
+```
+
+```bash
+$ ls
+maven-metadata-local.xml
+webclient-client-0.0.1-SNAPSHOT.module
+webclient-client-0.0.1-SNAPSHOT.pom
+webclient-client-0.0.1-SNAPSHOT-javadoc.jar
+webclient-client-0.0.1-SNAPSHOT-plain.jar
+webclient-client-0.0.1-SNAPSHOT-sources.jar
+```
+
+- publishing을 사내 nexus로 하면, 클라이언트를 개발하는 다른 개발자가 publish된 클라이언트 라이브러리를 사용하면 된다.
+
+## (추가) 클라이언트 라이브러리 의존성 추가해보기!
+
+- 새 프로젝트를 만들고 publishing한 라이브러리가 의존성에 추가 되는지 확인해보자
+- 새 프로젝트 build.gradle에 의존성 추가
+
+```bash
+repositories {
+		// local 저장소 추가
+    mavenLocal()
+}
+
+dependencies {
+    // openapi client library
+    implementation 'minjun.client:webclient-client:0.0.1-SNAPSHOT'
+}
+```
+
+![3.PNG](./img/3.png)
+
+- 위와 같이 의존성이 추가된다.
+
+```java
+package openapi.client;
+
+import minjun.openapi.ApiClient;
+import minjun.openapi.api.StoreApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class Webclient {
+
+    @Bean
+    public ApiClient apiClient() {
+				// baseUrl 설정 필요시 추가
+				// new ApiClient().setBasePath("url");
+        return new ApiClient();
+    }
+
+    @Bean
+    public StoreApi storeApi(ApiClient apiClient) {
+        return new StoreApi(apiClient);
+    }
+}
+```
+
+- 위와 같이 빈으로 등록한 후 사용하면 된다. 끝.
